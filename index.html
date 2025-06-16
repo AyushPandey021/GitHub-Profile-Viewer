@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub Profile Viewer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-900 min-h-screen flex items-center justify-center px-4">
+    <div
+      class="w-full max-w-2xl bg-white/5 backdrop-blur-md rounded-2xl p-8 shadow-2xl text-white"
+    >
+      <h1 class="text-3xl font-bold text-center mb-6">GitHub Profile Viewer</h1>
+
+      <!-- Input Section -->
+      <div class="flex gap-4 mb-6">
+        <input
+          type="text"
+          placeholder="Enter GitHub username..."
+          class="usernameinp flex-1 px-5 py-3 rounded-xl bg-white/10 text-white placeholder-white/60 border border-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        <button
+          class="Search hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl transition"
+        >
+          Search
+        </button>
+      </div>
+
+      <!-- 🔄 Skeleton Loading State (toggle visibility with JS) -->
+      <div class="animate-pulse hidden" id="loading">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-20 h-20 rounded-full bg-gray-700"></div>
+          <div class="flex-1">
+            <div class="h-5 bg-gray-700 w-3/4 rounded mb-2"></div>
+            <div class="h-4 bg-gray-700 w-1/2 rounded"></div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4 mt-4">
+          <div class="h-4 bg-gray-700 rounded w-full"></div>
+          <div class="h-4 bg-gray-700 rounded w-full"></div>
+          <div class="h-4 bg-gray-700 rounded w-full"></div>
+          <div class="h-4 bg-gray-700 rounded w-full"></div>
+        </div>
+      </div>
+
+      <!-- ✅ Profile Data (dummy filled) -->
+      <div class="card mt-8" id="profileData">
+        <div class="flex gap-4 items-center">
+          <img
+            src="https://avatars.githubusercontent.com/u/583231?v=4"
+            alt="Avatar"
+            class="w-20 h-20 rounded-full border-2 border-white shadow-lg"
+          />
+          <div>
+            <h2 class="text-2xl font-bold">The Octocat</h2>
+            <p class="text-sm text-white/70">
+              Just a friendly octopus from GitHub.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mt-6 text-sm">
+          <div><strong>Followers:</strong> 8.9k</div>
+          <div><strong>Following:</strong> 9</div>
+          <div><strong>Public Repos:</strong> 8</div>
+          <div><strong>Location:</strong> San Francisco</div>
+        </div>
+
+        <div class="mt-6 space-y-2 text-sm text-white/80">
+          <div><strong>Company:</strong> GitHub</div>
+          <div>
+            <strong>Blog:</strong>
+            <a
+              href="https://github.blog"
+              class="text-indigo-400 hover:underline"
+              >github.blog</a
+            >
+          </div>
+          <div>
+            <strong>GitHub Profile:</strong>
+            <a
+              href="https://github.com/octocat"
+              class="text-indigo-400 hover:underline"
+              >https://github.com/octocat</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
