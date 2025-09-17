@@ -3,67 +3,101 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GitHub Profile Viewer</title>
+    <title>GitHub Profile Explorer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
     <style>
       body {
-        font-family: "Poppins", sans-serif;
-      }
-      /* Fancy Glow Animation */
-      .glow-hover {
-        transition: all 0.3s ease-in-out;
-        box-shadow: 0 0 0 rgba(99, 102, 241, 0);
-      }
-      .glow-hover:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 20px rgba(99, 102, 241, 0.7);
+        font-family: "Outfit", sans-serif;
+        overflow-x: hidden;
       }
 
-      /* Smooth Card Animation */
-      .fade-in-up {
-        opacity: 0;
-        transform: translateY(20px);
-        animation: fadeInUp 0.6s ease forwards;
+      /* Animated Gradient Blobs */
+      .blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.4;
+        animation: moveBlob 12s ease-in-out infinite alternate;
       }
-      @keyframes fadeInUp {
+      @keyframes moveBlob {
+        0% {
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          transform: translate(30px, -40px) scale(1.2);
+        }
+        100% {
+          transform: translate(-30px, 40px) scale(1);
+        }
+      }
+
+      /* Slide In Animation */
+      .slide-up {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: slideUp 0.8s ease forwards;
+      }
+      @keyframes slideUp {
         to {
           opacity: 1;
           transform: translateY(0);
         }
       }
+
+      /* Glow Hover Button */
+      .glow-btn {
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 0 0 rgba(236, 72, 153, 0);
+      }
+      .glow-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px rgba(236, 72, 153, 0.6);
+      }
+
+      /* Avatar Hover Effect */
+      .profile-pic {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      }
+      .profile-pic:hover {
+        transform: scale(1.08) rotate(2deg);
+        box-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
+      }
     </style>
   </head>
-  <body
-    class="bg-gradient-to-br from-gray-900 via-gray-800 to-black min-h-screen flex items-center justify-center px-4"
-  >
+  <body class="relative bg-gray-950 min-h-screen flex items-center justify-center px-4">
+    <!-- Animated Background Blobs -->
+    <div class="blob w-72 h-72 bg-pink-500 top-10 left-10"></div>
+    <div class="blob w-80 h-80 bg-purple-500 top-40 right-10 animation-delay-2000"></div>
+    <div class="blob w-60 h-60 bg-indigo-500 bottom-10 left-1/3"></div>
+
     <div
-      class="w-full max-w-2xl bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl text-white fade-in-up"
+      class="w-full max-w-2xl bg-white/10 backdrop-blur-xl rounded-3xl p-8 shadow-[0_0_50px_rgba(255,255,255,0.1)] text-white slide-up"
     >
       <h1
-        class="text-4xl font-bold text-center mb-8 tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500"
+        class="text-5xl font-bold text-center mb-8 bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent tracking-wide drop-shadow-lg"
       >
-        GitHub Explorer
+        GitHub Explorer 🚀
       </h1>
 
       <!-- Input Section -->
-      <div class="flex gap-4 mb-6">
+      <div class="flex gap-4 mb-6 slide-up" style="animation-delay: 0.2s">
         <input
           type="text"
-          placeholder="🔍 Search GitHub username..."
-          class="usernameinp flex-1 px-5 py-3 rounded-xl bg-white/10 text-white placeholder-white/60 border border-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+          placeholder="🔍 Type GitHub username..."
+          class="flex-1 px-5 py-3 rounded-xl bg-white/10 text-white placeholder-white/60 border border-white/20 focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
         />
         <button
-          class="Search glow-hover bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl"
+          class="glow-btn bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 px-6 py-3 rounded-xl font-semibold"
         >
           Search
         </button>
       </div>
 
-      <!-- 🔄 Skeleton Loading State -->
+      <!-- Skeleton Loading -->
       <div class="animate-pulse hidden" id="loading">
         <div class="flex items-center gap-4 mb-4">
           <div class="w-20 h-20 rounded-full bg-gray-700"></div>
@@ -80,19 +114,22 @@
         </div>
       </div>
 
-      <!-- ✅ Profile Data -->
+      <!-- Profile Card -->
       <div
-        class="card mt-8 p-6 rounded-2xl bg-white/5 hover:bg-white/10 transition transform hover:scale-[1.02] shadow-xl"
+        class="card mt-8 p-6 rounded-2xl bg-white/5 hover:bg-white/10 transition transform hover:scale-[1.03] shadow-[0_0_30px_rgba(236,72,153,0.3)] slide-up"
+        style="animation-delay: 0.4s"
         id="profileData"
       >
         <div class="flex gap-4 items-center">
           <img
             src="https://avatars.githubusercontent.com/u/583231?v=4"
             alt="Avatar"
-            class="w-20 h-20 rounded-full border-2 border-indigo-400 shadow-lg"
+            class="w-20 h-20 rounded-full border-2 border-pink-400 profile-pic"
           />
           <div>
-            <h2 class="text-2xl font-bold text-indigo-300">The Octocat</h2>
+            <h2 class="text-2xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+              The Octocat
+            </h2>
             <p class="text-sm text-white/70">
               Just a friendly octopus from GitHub.
             </p>
@@ -112,7 +149,7 @@
             <strong>📰 Blog:</strong>
             <a
               href="https://github.blog"
-              class="text-indigo-400 hover:underline"
+              class="text-pink-400 hover:underline"
               >github.blog</a
             >
           </div>
@@ -120,13 +157,18 @@
             <strong>🌐 GitHub Profile:</strong>
             <a
               href="https://github.com/octocat"
-              class="text-indigo-400 hover:underline"
+              class="text-purple-400 hover:underline"
               >https://github.com/octocat</a
             >
           </div>
         </div>
       </div>
     </div>
-    <script src="script.js"></script>
+    <script>
+      // Small script to create a delay animation effect for multiple elements
+      document.querySelectorAll(".slide-up").forEach((el, i) => {
+        el.style.animationDelay = `${i * 0.2}s`;
+      });
+    </script>
   </body>
 </html>
