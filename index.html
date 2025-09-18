@@ -14,7 +14,6 @@
         font-family: "Outfit", sans-serif;
         overflow-x: hidden;
       }
-
       /* Animated Gradient Blobs */
       .blob {
         position: absolute;
@@ -24,54 +23,34 @@
         animation: moveBlob 12s ease-in-out infinite alternate;
       }
       @keyframes moveBlob {
-        0% {
-          transform: translate(0, 0) scale(1);
-        }
-        50% {
-          transform: translate(30px, -40px) scale(1.2);
-        }
-        100% {
-          transform: translate(-30px, 40px) scale(1);
-        }
+        0% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(30px, -40px) scale(1.2); }
+        100% { transform: translate(-30px, 40px) scale(1); }
       }
-
-      /* Slide In Animation */
-      .slide-up {
-        opacity: 0;
-        transform: translateY(30px);
-        animation: slideUp 0.8s ease forwards;
+      /* Slide Animation */
+      .slide-up { opacity: 0; transform: translateY(30px); animation: slideUp 0.8s ease forwards; }
+      @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+      /* Glow Button */
+      .glow-btn { transition: all 0.3s ease-in-out; box-shadow: 0 0 0 rgba(236, 72, 153, 0); }
+      .glow-btn:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(236, 72, 153, 0.6); }
+      /* Avatar Hover */
+      .profile-pic { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+      .profile-pic:hover { transform: scale(1.08) rotate(2deg); box-shadow: 0 0 30px rgba(168, 85, 247, 0.5); }
+      /* Error Shake Animation */
+      @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        50% { transform: translateX(5px); }
+        75% { transform: translateX(-5px); }
+        100% { transform: translateX(0); }
       }
-      @keyframes slideUp {
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      /* Glow Hover Button */
-      .glow-btn {
-        transition: all 0.3s ease-in-out;
-        box-shadow: 0 0 0 rgba(236, 72, 153, 0);
-      }
-      .glow-btn:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 25px rgba(236, 72, 153, 0.6);
-      }
-
-      /* Avatar Hover Effect */
-      .profile-pic {
-        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-      }
-      .profile-pic:hover {
-        transform: scale(1.08) rotate(2deg);
-        box-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
-      }
+      .shake { animation: shake 0.4s ease; }
     </style>
   </head>
   <body class="relative bg-gray-950 min-h-screen flex items-center justify-center px-4">
     <!-- Animated Background Blobs -->
     <div class="blob w-72 h-72 bg-pink-500 top-10 left-10"></div>
-    <div class="blob w-80 h-80 bg-purple-500 top-40 right-10 animation-delay-2000"></div>
+    <div class="blob w-80 h-80 bg-purple-500 top-40 right-10"></div>
     <div class="blob w-60 h-60 bg-indigo-500 bottom-10 left-1/3"></div>
 
     <div
@@ -86,11 +65,13 @@
       <!-- Input Section -->
       <div class="flex gap-4 mb-6 slide-up" style="animation-delay: 0.2s">
         <input
+          id="usernameInput"
           type="text"
           placeholder="🔍 Type GitHub username..."
           class="flex-1 px-5 py-3 rounded-xl bg-white/10 text-white placeholder-white/60 border border-white/20 focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
         />
         <button
+          id="searchBtn"
           class="glow-btn bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 px-6 py-3 rounded-xl font-semibold"
         >
           Search
@@ -116,59 +97,63 @@
 
       <!-- Profile Card -->
       <div
-        class="card mt-8 p-6 rounded-2xl bg-white/5 hover:bg-white/10 transition transform hover:scale-[1.03] shadow-[0_0_30px_rgba(236,72,153,0.3)] slide-up"
-        style="animation-delay: 0.4s"
         id="profileData"
-      >
-        <div class="flex gap-4 items-center">
-          <img
-            src="https://avatars.githubusercontent.com/u/583231?v=4"
-            alt="Avatar"
-            class="w-20 h-20 rounded-full border-2 border-pink-400 profile-pic"
-          />
-          <div>
-            <h2 class="text-2xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-              The Octocat
-            </h2>
-            <p class="text-sm text-white/70">
-              Just a friendly octopus from GitHub.
-            </p>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4 mt-6 text-sm">
-          <div><strong>👥 Followers:</strong> 8.9k</div>
-          <div><strong>🫂 Following:</strong> 9</div>
-          <div><strong>📂 Public Repos:</strong> 8</div>
-          <div><strong>📍 Location:</strong> San Francisco</div>
-        </div>
-
-        <div class="mt-6 space-y-2 text-sm text-white/80">
-          <div><strong>🏢 Company:</strong> GitHub</div>
-          <div>
-            <strong>📰 Blog:</strong>
-            <a
-              href="https://github.blog"
-              class="text-pink-400 hover:underline"
-              >github.blog</a
-            >
-          </div>
-          <div>
-            <strong>🌐 GitHub Profile:</strong>
-            <a
-              href="https://github.com/octocat"
-              class="text-purple-400 hover:underline"
-              >https://github.com/octocat</a
-            >
-          </div>
-        </div>
-      </div>
+        class="hidden mt-8 p-6 rounded-2xl bg-white/5 hover:bg-white/10 transition transform hover:scale-[1.03] shadow-[0_0_30px_rgba(236,72,153,0.3)] slide-up"
+        style="animation-delay: 0.4s"
+      ></div>
     </div>
+
     <script>
-      // Small script to create a delay animation effect for multiple elements
-      document.querySelectorAll(".slide-up").forEach((el, i) => {
-        el.style.animationDelay = `${i * 0.2}s`;
-      });
+      const input = document.getElementById("usernameInput");
+      const btn = document.getElementById("searchBtn");
+      const profileDiv = document.getElementById("profileData");
+      const loadingDiv = document.getElementById("loading");
+
+      async function fetchUser() {
+        const username = input.value.trim();
+        if (!username) return;
+        profileDiv.classList.add("hidden");
+        loadingDiv.classList.remove("hidden");
+
+        try {
+          const res = await fetch(`https://api.github.com/users/${username}`);
+          if (!res.ok) throw new Error("User not found");
+          const data = await res.json();
+
+          profileDiv.innerHTML = `
+            <div class="flex gap-4 items-center">
+              <img src="${data.avatar_url}" alt="Avatar" class="w-20 h-20 rounded-full border-2 border-pink-400 profile-pic" />
+              <div>
+                <h2 class="text-2xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">${data.name || data.login}</h2>
+                <p class="text-sm text-white/70">${data.bio || "No bio available"}</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mt-6 text-sm">
+              <div><strong>👥 Followers:</strong> ${data.followers}</div>
+              <div><strong>🫂 Following:</strong> ${data.following}</div>
+              <div><strong>📂 Public Repos:</strong> ${data.public_repos}</div>
+              <div><strong>📍 Location:</strong> ${data.location || "Unknown"}</div>
+            </div>
+
+            <div class="mt-6 space-y-2 text-sm text-white/80">
+              ${data.company ? `<div><strong>🏢 Company:</strong> ${data.company}</div>` : ""}
+              ${data.blog ? `<div><strong>📰 Blog:</strong> <a href="${data.blog}" class="text-pink-400 hover:underline">${data.blog}</a></div>` : ""}
+              <div><strong>🌐 GitHub Profile:</strong> <a href="${data.html_url}" class="text-purple-400 hover:underline">${data.html_url}</a></div>
+            </div>
+          `;
+        } catch (err) {
+          profileDiv.innerHTML = `<p class="text-center text-red-400 font-semibold text-lg">❌ User not found!</p>`;
+          profileDiv.classList.add("shake");
+          setTimeout(() => profileDiv.classList.remove("shake"), 400);
+        } finally {
+          loadingDiv.classList.add("hidden");
+          profileDiv.classList.remove("hidden");
+        }
+      }
+
+      btn.addEventListener("click", fetchUser);
+      input.addEventListener("keypress", (e) => e.key === "Enter" && fetchUser());
     </script>
   </body>
 </html>
